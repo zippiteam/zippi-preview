@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#08142f">
+  <meta name="description" content="A new way to discover independent service providers, starting with an initial local pilot.">
+  <title>Zippi — Services, made simple</title>
+  <style>
+    :root { color-scheme: dark; --ink:#f7f1e7; --muted:#b5c0d8; --green:#ffc94f; --lime:#172754; --cream:#08142f; --line:#293a63; }
+    * { box-sizing: border-box; }
+    body { margin:0; background:var(--cream); color:var(--ink); font-family: ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; }
+    .wrap { max-width:1120px; margin:0 auto; padding:24px; }
+    header { display:flex; align-items:center; justify-content:space-between; padding:8px 0 22px; }
+    .brand { font-weight:850; letter-spacing:-.06em; font-size:1.55rem; }
+    .brand span { color:var(--green); }
+    .area { color:var(--muted); font-size:.88rem; }
+    .seasonal { display:flex; align-items:center; justify-content:space-between; gap:18px; margin:4px 0 10px; padding:16px 20px; border:1px solid #2c3d69; border-radius:18px; background:#14234a; }
+    .seasonal-copy { display:flex; align-items:center; gap:13px; }
+    .seasonal-icon { font-size:1.55rem; }
+    .seasonal strong { display:block; margin-bottom:3px; }
+    .seasonal small { color:var(--muted); }
+    .seasonal a { flex:none; color:var(--green); font-weight:750; text-decoration:none; }
+    .hero { display:grid; grid-template-columns:1.2fr .8fr; gap:40px; align-items:center; padding:66px 0 58px; }
+    .eyebrow { color:var(--green); font-weight:750; text-transform:uppercase; letter-spacing:.12em; font-size:.76rem; }
+    h1 { max-width:700px; font-family:Georgia,"Times New Roman",serif; font-size:clamp(3rem,7vw,5.7rem); line-height:.98; letter-spacing:-.045em; margin:16px 0 20px; }
+    .lead { max-width:600px; color:var(--muted); font-size:1.17rem; line-height:1.65; }
+    .cta { display:inline-block; margin-top:14px; padding:14px 20px; border-radius:999px; background:var(--green); color:#101a31; font-weight:800; text-decoration:none; }
+    .search-panel { background:#101f42; border:1px solid var(--line); border-radius:22px; padding:24px; box-shadow:0 12px 36px #00000024; }
+    .search-fields { display:grid; grid-template-columns:1fr 1fr auto; gap:12px; align-items:end; margin-top:18px; }
+    .field label { display:block; font-size:.82rem; font-weight:700; margin:0 0 7px; }
+    .field input,.field select { width:100%; min-height:50px; border:1px solid #7583a4; border-radius:12px; padding:0 13px; background:#f7f1e7; color:#101a31; font:inherit; }
+    .search-button { min-height:50px; border:0; border-radius:12px; padding:0 20px; background:var(--green); color:#101a31; font:inherit; font-weight:800; cursor:pointer; }
+    .interest { margin-top:26px; padding-top:22px; border-top:1px solid var(--line); }
+    .interest summary { cursor:pointer; font-family:Georgia,"Times New Roman",serif; font-size:1.35rem; font-weight:750; }
+    .interest p { color:var(--muted); line-height:1.55; margin:10px 0 16px; }
+    .interest iframe { display:block; width:100%; height:1100px; border:0; border-radius:12px; background:#fff; }
+    .provider-interest { border-top:1px solid var(--line); margin-top:24px; padding-top:22px; }
+    .results { margin-top:20px; }
+    .results-head { display:flex; justify-content:space-between; gap:12px; align-items:center; }
+    .results-head h3 { margin:0; }
+    .demo-label { color:#171e31; background:#ffc94f; border-radius:999px; padding:6px 10px; font-size:.76rem; font-weight:800; }
+    .result-list { display:grid; grid-template-columns:repeat(2,1fr); gap:12px; margin-top:14px; }
+    .result-card { border:1px solid var(--line); border-radius:16px; padding:17px; background:#14234a; }
+    .result-card h4 { margin:0 0 8px; }
+    .result-card p { margin:0 0 10px; color:var(--muted); line-height:1.5; font-size:.92rem; }
+    .result-card small { color:var(--muted); }
+    .empty { color:var(--muted); margin:12px 0 0; line-height:1.5; }
+    .note { color:var(--muted); font-size:.86rem; margin-top:12px; }
+    .art { min-height:330px; border-radius:32px; background:#14234a; position:relative; overflow:hidden; display:grid; place-items:center; border:1px solid #293a63; }
+    .sun { width:210px; height:210px; border-radius:50%; background:#ffc94f; position:absolute; top:42px; right:38px; box-shadow:0 0 60px #ffc94f40; }
+    .hill { position:absolute; width:420px; height:230px; border-radius:50% 50% 0 0; bottom:-85px; left:-55px; background:#1d3a70; transform:rotate(-9deg); }
+    .hill.two { left:auto; right:-100px; bottom:-120px; background:#27624f; transform:rotate(16deg); }
+    .badge { z-index:1; align-self:end; margin-bottom:36px; border:1px solid #58678b; background:#0c1834e8; color:var(--ink); padding:14px 18px; border-radius:16px; font-weight:750; box-shadow:0 8px 30px #00000036; }
+    h2,.card h3 { font-family:Georgia,"Times New Roman",serif; }
+    .lights { height:60px; display:flex; align-items:center; justify-content:space-around; position:relative; margin:0 0 10px; overflow:hidden; }
+    .lights::before { content:""; position:absolute; left:-2%; right:-2%; top:22px; height:28px; border-top:2px solid #465579; border-radius:0 0 50% 50%; }
+    .lights span { z-index:1; width:15px; height:23px; border-radius:50%; background:#e74350; box-shadow:0 0 17px currentColor; color:#e74350; }
+    .lights span:nth-child(4n+2) { color:#ffc94f; background:#ffc94f; }
+    .lights span:nth-child(4n+3) { color:#27a878; background:#27a878; }
+    .lights span:nth-child(4n) { color:#67aefa; background:#67aefa; }
+    section { padding:40px 0; }
+    h2 { letter-spacing:-.04em; font-size:2rem; margin:0 0 10px; }
+    .sub { color:var(--muted); line-height:1.6; max-width:650px; }
+    .cards { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-top:24px; }
+    .card { background:#14234a; border:1px solid var(--line); border-radius:20px; padding:22px; min-height:170px; }
+    .icon { font-size:1.65rem; }
+    .card h3 { margin:14px 0 8px; }
+    .card p { margin:0; line-height:1.55; color:var(--muted); font-size:.94rem; }
+    .how { border-top:1px solid var(--line); display:grid; grid-template-columns:repeat(3,1fr); gap:24px; margin-top:24px; padding-top:24px; }
+    .step strong { color:var(--green); }
+    .step p { color:var(--muted); line-height:1.55; }
+    footer { border-top:1px solid var(--line); padding:24px 0 12px; color:var(--muted); font-size:.84rem; line-height:1.6; }
+    @media (max-width:760px) { .hero { grid-template-columns:1fr; padding:38px 0; gap:28px; } .art { min-height:250px; } .cards,.how,.result-list { grid-template-columns:1fr; } .search-fields { grid-template-columns:1fr; } .area { text-align:right; max-width:150px; } .seasonal { align-items:flex-start; } .seasonal a { font-size:.88rem; } .lights span { width:11px; height:18px; } .interest iframe { height:1250px; } }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header><div class="brand">zi<span>ppi</span></div><div class="area">Local beginnings.<br>A world of possibility.</div></header>
+    <aside class="seasonal" aria-label="Seasonal feature">
+      <div class="seasonal-copy"><span class="seasonal-icon" aria-hidden="true">✨</span><div><strong>Seasonal spotlight: Holiday lighting</strong><small>We’re exploring provider availability for the season.</small></div></div>
+      <a href="#seasonal">See the spotlight ↓</a>
+    </aside>
+    <div class="lights" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+    <main>
+      <div class="hero">
+        <div>
+          <div class="eyebrow">Discover. Connect. Done.</div>
+          <h1>Services, made simple.</h1>
+          <p class="lead">Zippi is building a simpler way to discover and connect with independent service providers—starting with a focused local pilot and a bigger vision for everywhere.</p>
+          <a class="cta" href="#search">Find a service</a>
+          <p class="note">Early concept · Search preview uses examples, not live provider listings.</p>
+        </div>
+        <div class="art" aria-hidden="true"><div class="sun"></div><div class="hill"></div><div class="hill two"></div><div class="badge">Made for your neighborhood ✦</div></div>
+      </div>
+      <section id="search" aria-labelledby="search-title">
+        <div class="search-panel">
+          <div class="eyebrow">Start with what you need</div>
+          <h2 id="search-title">What service are you looking for?</h2>
+          <form id="service-search">
+            <div class="search-fields">
+              <div class="field">
+                <label for="service">Service</label>
+                <select id="service" name="service" required>
+                  <option value="" selected disabled>Select a service</option>
+                  <option value="holiday-lighting">Holiday lighting</option>
+                  <option value="pet-grooming">Pet grooming</option>
+                  <option value="plumbing">Plumbing</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="location">City or ZIP code</label>
+                <input id="location" name="location" placeholder="e.g. 80202" required>
+              </div>
+              <button class="search-button" type="submit">Search services</button>
+            </div>
+          </form>
+          <div id="search-results" class="results" aria-live="polite">
+            <p class="empty">Enter a service and location to preview how local provider results will appear. This prototype does not save or send your search.</p>
+          </div>
+          <details class="interest" id="request">
+            <summary>Looking for a real provider? Share your request</summary>
+            <p>This form records your inquiry with Zippi. It is not a booking; your request is shared with a provider only if you give permission in the form.</p>
+            <iframe title="Zippi service request and pilot interest form" src="https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=DQSIkWdsW0yxEjajBLZtrQAAAAAAAAAAAAMAAbpJiotURUZDNTJORFM3Sk41WlhUVlQzREg3TzNIUy4u&amp;embed=true" loading="lazy" allowfullscreen></iframe>
+          </details>
+        </div>
+      </section>
+      <section>
+        <div class="eyebrow">A small start</div>
+        <h2>Useful help, closer to home.</h2>
+        <p class="sub">We’re starting with everyday services like plumbing and pet grooming, with seasonal specialists featured when the moment is right. The vision: make finding great independent services simple wherever you are.</p>
+        <div class="cards">
+          <article class="card" id="seasonal"><div class="icon">✨</div><h3>Seasonal spotlight: Holiday lighting</h3><p>Limited-time services can take center stage when the season arrives. Provider availability is still being explored.</p></article>
+          <article class="card"><div class="icon">🔧</div><h3>Plumbing</h3><p>Find independent pros for the fixes and projects that keep a home running, once local coverage is confirmed.</p></article>
+          <article class="card"><div class="icon">🐾</div><h3>Pet grooming</h3><p>Explore grooming options, including mobile providers, once service areas and availability are confirmed.</p></article>
+        </div>
+      </section>
+      <section id="updates">
+        <div class="eyebrow">How it could work</div>
+        <h2>Simple from first search to next step.</h2>
+        <div class="how">
+          <div class="step"><strong>01 · Explore</strong><p>Browse service types and the towns providers say they cover.</p></div>
+          <div class="step"><strong>02 · Ask</strong><p>Share what you need and when. Any request would be shared only with your permission.</p></div>
+          <div class="step"><strong>03 · Connect</strong><p>Hear directly from a provider about availability, details, and pricing before deciding.</p></div>
+        </div>
+        <p class="note"><strong>Pilot status:</strong> Search results are illustrative examples only. The request form records inquiries, but there is no live provider directory or booking service yet.</p>
+        <div class="provider-interest">
+          <details class="interest">
+            <summary>Are you a service provider? Tell us what you offer</summary>
+            <p>Share your services and service area. Submitting the form is not an agreement or a promise of leads. Listings only go live after provider review and approval.</p>
+            <iframe title="Zippi provider pilot interest form" src="https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=DQSIkWdsW0yxEjajBLZtrQAAAAAAAAAAAAMAAbpJiotUN0g0NjhTNVhMNkJGQllSUlRJUUNEWUtENy4u&amp;embed=true" loading="lazy" allowfullscreen></iframe>
+          </details>
+        </div>
+      </section>
+    </main>
+    <footer>Zippi is an early marketplace concept. Provider participation, service availability, verification, pricing, and booking outcomes are not guaranteed. Brand and contact details require owner review before publication.</footer>
+  </div>
+  <script>
+    const examples = {
+      plumbing: [
+        { name: "Example Plumbing Provider", detail: "Repairs and home plumbing projects", status: "Example listing · availability not confirmed" },
+        { name: "Sample Home Services Pro", detail: "Fixture repairs and routine maintenance", status: "Example listing · provider not yet recruited" }
+      ],
+      "pet-grooming": [
+        { name: "Example Pet Groomer", detail: "Grooming appointments for dogs", status: "Example listing · availability not confirmed" },
+        { name: "Sample Mobile Grooming Service", detail: "Mobile grooming concept listing", status: "Example listing · provider not yet recruited" }
+      ],
+      "holiday-lighting": [
+        { name: "Example Holiday Lighting Pro", detail: "Seasonal installation and removal", status: "Example listing · seasonal capacity not confirmed" },
+        { name: "Sample Seasonal Lighting Service", detail: "Holiday lighting concept listing", status: "Example listing · provider not yet recruited" }
+      ]
+    };
+    const labels = { plumbing: "Plumbing", "pet-grooming": "Pet grooming", "holiday-lighting": "Holiday lighting" };
+    document.getElementById("service-search").addEventListener("submit", (event) => {
+      event.preventDefault();
+      const service = document.getElementById("service").value;
+      const location = document.getElementById("location").value.trim();
+      const safeLocation = location.replace(/[&<>"']/g, (character) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[character]));
+      const cards = examples[service].map((item) => `<article class="result-card"><h4>${item.name}</h4><p>${item.detail}</p><small>${item.status} · area searched: ${safeLocation}</small></article>`).join("");
+      document.getElementById("search-results").innerHTML = `<div class="results-head"><h3>Example ${labels[service]} results near ${safeLocation}</h3><span class="demo-label">DEMO DATA</span></div><p class="empty">These sample cards show the planned experience. They are not real businesses, and no provider is currently bookable through this page.</p><div class="result-list">${cards}</div>`;
+    });
+  </script>
+</body>
+</html>
